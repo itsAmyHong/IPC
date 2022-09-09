@@ -1,34 +1,44 @@
 #include <iostream>
 #include <unistd.h>
-#include <memory.cpp>
+#include <string>
+#include "functions.h"
+
 using namespace std;
 
+memory m;
+cpu processor;
+
+// Global one-way pipes for communication (0 - read, 1 - write)
+int rpipe[2]; // Pipe where CPU reads,  Memory writes
+int wpipe[2]; // Pupe where CPU writes, Memory reads
+
+string filename = "test.txt";
+
+// Initializes and runs two processes simulating the memory, cpu, and interrupts
 int main(){
 
     pid_t child;
-
-    // initialize one-way pipes for communication
-    // 0 - read, 1 - write
-    int rpipe[2]; // CPU reads, Memory writes
-    int wpipe[2]; // CPU writes, Memory reads
+    char buffer;
 
     pipe(rpipe);
     pipe(wpipe);
-    char buf;
 
-    // create child processes
     child = fork();
     if(child == 0) {
-        cout << "hello, I'm Memory" << endl;
-        close(rpipe[0]); // Memory cannot read into rpipe
-        close(wpipe[1]); // Memory cannot write into wpipe
-        Memory m;
+        cout << "System: in Memory" << endl;
+
+        close(rpipe[0]);    
+        close(wpipe[1]);
+
+        processor.loadProgram(filename);
+          
         
 
     } else {
-        cout << "hello, I'm CPU" << endl;
-        close(rpipe[1]); // CPU cannot write into rpipe
-        close(wpipe[0]); // CPU cannot read into wpipe
-    }
+        cout << "System: in CPU" << endl;
+        close(rpipe[1]);
+        close(wpipe[0]); 
 
+        cpu processor;
+    }
 }

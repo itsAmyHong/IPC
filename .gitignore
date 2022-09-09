@@ -1,2 +1,9 @@
 .vscode/
 .git/
+
+main
+ipc
+
+*.o
+
+test.txt
