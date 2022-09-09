@@ -1,5 +1,6 @@
 #include <iostream>
 #include <unistd.h>
+#include <memory.cpp>
 using namespace std;
 
 int main(){
@@ -21,7 +22,7 @@ int main(){
         cout << "hello, I'm Memory" << endl;
         close(rpipe[0]); // Memory cannot read into rpipe
         close(wpipe[1]); // Memory cannot write into wpipe
-    
+        Memory m;
         
 
     } else {
