@@ -1,9 +1,13 @@
+# Directories
 .vscode/
 .git/
 
+# Executable files
 main
 ipc
 
+# File types
 *.o
 
+# Text files
 test.txt

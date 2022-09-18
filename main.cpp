@@ -5,12 +5,9 @@
 
 using namespace std;
 
-memory m;
-cpu processor;
-
 // Global one-way pipes for communication (0 - read, 1 - write)
-int rpipe[2]; // Pipe where CPU reads,  Memory writes
-int wpipe[2]; // Pupe where CPU writes, Memory reads
+int m2c[2]; // Pipe where CPU reads,  Memory writes
+int c2m[2]; // Pupe where CPU writes, Memory reads
 
 string filename = "test.txt";
 
@@ -18,27 +15,34 @@ string filename = "test.txt";
 int main(){
 
     pid_t child;
-    char buffer;
+    char buffer[1024];
 
-    pipe(rpipe);
-    pipe(wpipe);
+    cpu processor;
+    int program_counter;
+
+    pipe(c2m);
+    pipe(m2c);
 
     child = fork();
     if(child == 0) {
-        cout << "System: in Memory" << endl;
+        // In Memory process
+        memory mem = memory();
 
-        close(rpipe[0]);    
-        close(wpipe[1]);
+        close(m2c[0]); // m2c close memory read 
+        close(c2m[1]); // c2m close memory write
 
-        processor.loadProgram(filename);
-          
+        mem.loadProgram(filename);
+        
+    } else {
+        // In CPU process
+        close(m2c[1]); // m2c close cpu write
+        close(c2m[0]); // c2m close cpu read
+
+        char temp_buff[5];
+        write(c2m[1], &temp_buff, sizeof(temp_buff));
+
+        int program_counter = 0;
         
 
-    } else {
-        cout << "System: in CPU" << endl;
-        close(rpipe[1]);
-        close(wpipe[0]); 
-
-        cpu processor;
     }
 }
