@@ -10,4 +10,4 @@ ipc
 *.o
 
 # Text files
-test.txt
+*.txt

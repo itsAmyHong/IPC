@@ -8,38 +8,23 @@
 #include <string>
 using namespace std;
 
+/// @brief memory object stores memory array
 class memory{
     private:
-        int mem[2000];
-        int pointer;
+        int mem[2000]{};
     
     public:
-        memory();
-
-        const int USER = 0;
-        const int SYSTEM = 1000;
-
-        int read(int address, char *buffer);
-        void write(int address, int value);
-
         bool loadProgram(string filename);
+        void write(int address, int value);
+        int read(int address);
 };
 
+/// @brief cpu object defines communication to and from cpu
 class cpu{
     public:
-        //Registers
-		int pc;
-		int sp;
-		int ir;
-		int ac;
-		int x;
-		int y;
-
-        // kernal mode switch
-        bool kernalMode;
-
-        bool execute(int instruction);
-
+        int buffer[3] = {0, 0, 0};
+        void send(char command, int pc);
+        void send(char command, int pc, int value);
 };
 
 
