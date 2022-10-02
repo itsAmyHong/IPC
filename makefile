@@ -1,4 +1,4 @@
-PROG = ipc
+PROG = main
 SRCS = main.o functions.o
 
 CXX = g++

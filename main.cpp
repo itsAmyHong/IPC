@@ -6,16 +6,14 @@
 #include "functions.h"
 using namespace std;
 
-const int TIMER = 31;
-
 int main(int argc, char** argv){
     // check for correct number of arguments
-    if (argc < 2){
-        cout << "ERROR: This program requires input file name as an argument to operate." << endl;
+    if (argc < 3){
+        cout << "ERROR: This program requires input file name  and timer as arguments to operate." << endl;
         exit(0);
     }
-    if (argc > 2) {
-        cout << "ERROR: This program only requires input file name as an argument" << endl;
+    else if (argc > 3) {
+        cout << "ERROR: This program only requires input file name and time as arguments" << endl;
         exit(0);
     }
 
@@ -72,6 +70,7 @@ int main(int argc, char** argv){
             int x=0;
             int y=0;
 
+            int TIMER = stoi(argv[2]);
             int timer = TIMER;
             bool user_mode = true;
 
